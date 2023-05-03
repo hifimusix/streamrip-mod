@@ -12,6 +12,10 @@ class MissingCredentials(Exception):
     """MissingCredentials."""
 
 
+class InvalidAuthType(Exception):
+    """InvalidAuthType"""
+
+
 class IneligibleError(Exception):
     """IneligibleError.
 

@@ -20,9 +20,12 @@ quality = 3
 # This will download booklet pdfs that are included with some albums
 download_booklets = true
 
-email = ""
-# This is an md5 hash of the plaintext password
-password = ""
+# Auth type can be either "password" or "token"
+auth_type = "password"
+# Enter your email if the auth_type above is "password", else enter your userid
+email_or_userid = ""
+# Enter the md5 hash of your plaintext password if the auth_type above is "password", else enter your auth token
+password_or_token = ""
 # Do not change
 app_id = ""
 # Do not change

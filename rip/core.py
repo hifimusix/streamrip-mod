@@ -878,21 +878,38 @@ class RipCore(list):
         :type source: str
         """
         if source == "qobuz":
-            secho("Enter Qobuz email:", fg="green")
-            self.config.file[source]["email"] = input()
-            secho(
-                "Enter Qobuz password (will not show on screen):",
-                fg="green",
-            )
-            self.config.file[source]["password"] = md5(
-                getpass(prompt="").encode("utf-8")
-            ).hexdigest()
+            secho("Enter Qobuz authentication type (Valid values are 'password'/'token'):", fg="green")
+            auth_type = input()
+            self.config.file[source]["auth_type"] = auth_type
+            if auth_type.strip("'").strip("\"") == "password":
+                secho("Enter Qobuz email:", fg="green")
+                self.config.file[source]["email_or_userid"] = input()
 
-            self.config.save()
-            secho(
-                f'Credentials saved to config file at "{self.config._path}"',
-                fg="green",
-            )
+                secho("Enter Qobuz password (will not show on screen):", fg="green")
+                self.config.file[source]["password_or_token"] = md5(
+                    getpass(prompt="").encode("utf-8")
+                ).hexdigest()
+
+                self.config.save()
+                secho(
+                    f'Credentials saved to config file at "{self.config._path}"',
+                    fg="green",
+                )
+            elif auth_type.strip("'").strip("\"") == "token":
+                secho("Enter Qobuz user id:", fg="green")
+                self.config.file[source]["email_or_userid"] = input()
+
+                secho("Enter Qobuz token (will not show on screen):", fg="green")
+                self.config.file[source]["password_or_token"] = getpass(prompt="").encode("utf-8")
+
+                self.config.save()
+                secho(
+                    f'Credentials saved to config file at "{self.config._path}"',
+                    fg="green",
+                )
+            else:
+                secho("Invalid value passed for auth_type. Valid values are 'password'/'token'.", fg="red")
+                self.prompt_creds(source)
         elif source == "deezer":
             secho(
                 "If you're not sure how to find the ARL cookie, see the instructions at ",
